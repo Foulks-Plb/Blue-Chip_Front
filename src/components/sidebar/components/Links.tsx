@@ -33,11 +33,6 @@ export function SidebarLinks (props: SidebarLinksProps) {
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes: IRoute[]) => {
     return routes.map((route, index: number) => {
-      if (
-        route.layout === '/admin' ||
-        route.layout === '/auth' ||
-        route.layout === '/rtl'
-      ) {
         return (
           <Link key={index} href={route.layout + route.path}>
             <a>
@@ -120,7 +115,6 @@ export function SidebarLinks (props: SidebarLinksProps) {
             </a>
           </Link>
         )
-      }
     })
   }
   //  BRAND

@@ -1,6 +1,5 @@
 import React from 'react'
 
-// chakra imports
 import {
   Box,
   Flex,
@@ -25,6 +24,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IoMenuOutline } from 'react-icons/io5'
 import { IRoute } from 'types/navigation'
 import { isWindowAvailable } from 'utils/navigation'
+import Image from 'next/image'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
@@ -65,6 +65,7 @@ function Sidebar (props: SidebarProps) {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
+          {/* <Image width={1920} height={697} src='/img/logo.png'></Image> */}
           <Content routes={routes} />
         </Scrollbars>
       </Box>
@@ -82,8 +83,6 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
   const btnRef = React.useRef()
 
   const { routes } = props
-  // let isWindows = navigator.platform.startsWith("Win");
-  //  BRAND
 
   return (
     <Flex display={{ sm: 'flex', xl: 'none' }} alignItems='center'>

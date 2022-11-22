@@ -224,7 +224,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
   chart: {
     stacked: true,
     toolbar: {
-      show: false,
+      show: true,
     },
   },
   tooltip: {
@@ -241,7 +241,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
     theme: "dark",
   },
   xaxis: {
-    categories: ["17", "18", "19", "20", "21", "22", "23", "24", "25"],
+    categories: ["17", "18", "19"],
     show: false,
     labels: {
       show: true,

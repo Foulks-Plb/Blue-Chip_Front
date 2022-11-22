@@ -5,3 +5,7 @@ body {
 option {
   color: black;
 }
+
+.indexUp{
+  z-index: 2;
+}

@@ -78,6 +78,10 @@ export const globalStyles = {
       100: "#FAFCFE",
     },
   },
+
+
+
+  
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {

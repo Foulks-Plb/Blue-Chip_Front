@@ -10,12 +10,14 @@
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@rainbow-me/rainbowkit": "^0.7.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^25.2.3",
     "@types/react-dom": "^18.0.6",
     "apexcharts": "^3.35.2",
+    "ethers": "^5.7.2",
     "framer-motion": "^4.1.17",
     "next": "^12.2.5",
     "react": "^17.0.2",
@@ -30,6 +32,7 @@
     "stylis": "^4.1.1",
     "stylis-plugin-rtl": "2.0.2",
     "typescript": "^4.7.4",
+    "wagmi": "^0.7.15",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -41,7 +44,11 @@
     "deploy": "gh-pages -d build"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
