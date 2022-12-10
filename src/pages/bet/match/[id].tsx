@@ -6,7 +6,7 @@ import Composition from "components/Composition";
 import Bet from "components/Bet";
 import { useRouter } from "next/router";
 import ABI from "variables/abi.json";
-import { addressContract, RPC, chainId, matchs } from "variables/project";
+import { addressContract, RPC, chainId } from "variables/project";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
@@ -16,6 +16,8 @@ import HistoryItem from "components/HistoryItem";
 import HistoryBet from "components/HistoryBet";
 import { useAccount } from "wagmi";
 import { RepeatIcon } from "@chakra-ui/icons";
+import { firestore, getAllMacth } from "../../../../firebase/clientApp";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 export default function ProfileOverview() {
   const { address, isConnected } = useAccount();
@@ -46,18 +48,18 @@ export default function ProfileOverview() {
 
   useEffect(() => {
     if (id) {
-      setMatchLocal(matchs[idC]);
-
       searchMatchData();
       searchMatch();
       searchBetNumber();
+      searchMatchFromFirebase()
     }
   }, [router]);
 
+
   useEffect(() => {
     if (betNumber > 0 && isConnected) {
-      
       let i = 0;
+      setAllBet([]);
       while(i < betNumber)
       {
         searchAddressBetResult(i)
@@ -66,12 +68,27 @@ export default function ProfileOverview() {
     }
   }, [betNumber]);
 
+  async function searchMatchFromFirebase(){
+    const _AM = await getAllMacth();
+    const _match = _AM.filter(_AM => _AM.id == id);
+    if(_match[0]?.team1 && _match[0]?.team2)
+    {
+      setMatchLocal(
+        {
+          flag1: "/img/flags/"+_match[0].team1+".jpg",
+          flag2: "/img/flags/"+_match[0].team2+".jpg",
+          team1: _match[0].team1 ,
+          team2: _match[0].team2 ,
+        })
+    }  
+  }
+
   async function searchMatchData() {
     const _matchData = await contract.idData(idC);
     setInA(Number(_matchData.inA.toString()));
     setInB(Number(_matchData.inB.toString()));
     setInEquality(Number(_matchData.inEquality.toString()));
-    setPricePool(Number(_matchData.pricePool.toString()));
+    setPricePool(_matchData.pricePool.toString());
   }
 
   async function searchMatch() {
@@ -93,9 +110,7 @@ export default function ProfileOverview() {
   {
     const _result = await contract.idAddressBetResult(idC, address, betId)
     setAllBet(aB => [...aB, {
-      isA: _result.winA,
-      isB: _result.winB,
-      isEquality: _result.equality,
+      betTeam: _result,
       idMatch: idC,
       idBet: betId,
       leverage: 0
@@ -117,7 +132,7 @@ export default function ProfileOverview() {
           }}
           gap={{ base: "20px", xl: "20px" }}
         >
-          {matchLocal && pricePool && (
+          {matchLocal.team1 && matchLocal.team2 && (pricePool || pricePool == 0) && (
             <Banner
               gridArea="1 / 1 / 2 / 2"
               banner={img}
@@ -125,7 +140,7 @@ export default function ProfileOverview() {
               team2={matchLocal.flag2}
               name={matchLocal.team1 + " - " + matchLocal.team2}
               pricePool={
-                Number(ethers.utils.formatEther(pricePool)) + " BNB"
+                ethers.utils.formatEther(pricePool) + " BNB"
               }
               attendees={inA + inB + inEquality}
               following="274"
@@ -149,12 +164,12 @@ export default function ProfileOverview() {
                 base: "3 / 1 / 4 / 2",
                 lg: "1 / 3 / 2 / 4",
               }}
-              minH={{ base: "auto", lg: "420px", "2xl": "365px" }}
               pe="20px"
               pb={{ base: "100px", lg: "20px" }}
               price={price}
               team1={matchLocal.team1}
               team2={matchLocal.team2}
+              id={idC}
             />
           )}
         </Grid>
@@ -194,8 +209,8 @@ export default function ProfileOverview() {
                 key={"historyBet"+i}
                 idMatch={e.idMatch}
                 idBet={e.idBet}
-                teamBet={ e.isA ? matchLocal.team1 : (e.isB ? matchLocal.team2 : (e.isEquality ? "Equality": "Equality"))}
-                flag={ e.isA ? matchLocal.flag1 : (e.isB ? matchLocal.flag2 : (e.isEquality ? "/img/flags/white-flag.png": "/img/flags/white-flag.png"))}
+                teamBet={e.betTeam == 0 ? matchLocal.team1 : e.betTeam == 1 ? matchLocal.team2 :"Equality"}
+                flag={e.betTeam == 0 ? matchLocal.flag1 : e.betTeam == 1 ? matchLocal.flag2 :"/img/flags/white-flag.png"}
                 leverage={e.leverage}
               />
               )}

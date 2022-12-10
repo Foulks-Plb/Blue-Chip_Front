@@ -36,21 +36,20 @@ import ABI from "variables/abi.json";
 import { useContract, useSigner } from "wagmi";
 
 export default function Bet(props: {
-  price?: BigNumber;
+  price?: any;
   team1?: string;
   team2?: string;
   [x: string]: any;
+  id: number;
 }) {
   const [leverage, setLeverage] = useState(1);
   const [teamWin, setTeamWin] = useState(1);
 
-  const [isTeam1, setIsTeam1] = useState(false);
-  const [isTeam2, setIsTeam2] = useState(false);
-  const [isEquality, setIsEquality] = useState(false);
+  const [result, setResult] = useState(0);
 
   const handleChange = (value: any) => setLeverage(value);
 
-  const { price, team1, team2, ...rest } = props;
+  const { id, price, team1, team2, ...rest } = props;
 
   const { data: signer, isError, isLoading } = useSigner();
 
@@ -61,7 +60,11 @@ export default function Bet(props: {
   });
 
   async function betFunction() {
-    await contract.bet(0, leverage, isTeam1, isTeam2, isEquality, {value: leverage * price})
+    await contract.bet(id, leverage, result, {value: (leverage * price).toString()})
+  }
+
+  async function freeBetFunction() {
+    await contract.freeBet(id, result)
   }
 
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
@@ -115,9 +118,9 @@ export default function Bet(props: {
         <Center mt="20px">
           <CheckboxGroup colorScheme="purple">
             <Stack spacing={[1, 5]} direction={["column", "row"]}>
-              <Checkbox onChange={(e) =>{setIsTeam1(e.target.checked); setIsTeam2(false); setIsEquality(false)}} isChecked={isTeam1}>{team1}</Checkbox>
-              <Checkbox onChange={(e) =>{setIsTeam2(e.target.checked); setIsTeam1(false); setIsEquality(false)}} isChecked={isTeam2}>{team2}</Checkbox>
-              <Checkbox onChange={(e) =>{setIsEquality(e.target.checked); setIsTeam2(false); setIsTeam1(false);}} isChecked={isEquality}>Equality</Checkbox>
+              <Checkbox onChange={(e) =>{setResult(0)}} isChecked={result == 0}>{team1}</Checkbox>
+              <Checkbox onChange={(e) =>{setResult(1)}} isChecked={result == 1}>{team2}</Checkbox>
+              {/* <Checkbox onChange={(e) =>{setResult(2)}} isChecked={result == 2}>Equality</Checkbox> */}
             </Stack>
           </CheckboxGroup>
         </Center>
@@ -126,12 +129,23 @@ export default function Bet(props: {
             onClick={betFunction}
             w="140px"
             minW="140px"
+            m="5px"
             mt={{ base: "20px", "2xl": "auto" }}
             variant="brand"
             fontWeight="500"
           >
-            Bet{" "}
-            {leverage * price}
+            {ethers.utils.formatEther((leverage * price).toString()) + " bet"}
+          </Button>
+          <Button
+            onClick={freeBetFunction}
+            w="140px"
+            m="5px"
+            minW="140px"
+            mt={{ base: "20px", "2xl": "auto" }}
+            variant="brand"
+            fontWeight="500"
+          >
+            Free bet
           </Button>
         </Center>
       </Flex>

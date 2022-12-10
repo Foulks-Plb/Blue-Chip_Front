@@ -10,7 +10,8 @@ import {
 	Text,
 	useColorModeValue,
 	Spacer,
-	AspectRatio
+	AspectRatio,
+	Center
 } from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
@@ -47,6 +48,7 @@ export default function Match(props: {
 				<Flex flexDirection='column' justify='space-between' h='100%'>
 					<Flex
 						justify='space-between'
+						alignItems='center'
 						direction={{
 							base: 'row',
 							md: 'column',
@@ -56,6 +58,7 @@ export default function Match(props: {
 						}}
 						mb='auto'>
 						<Flex direction='column'>
+						
 							<Text
 								color={textColor}
 								fontSize={{
@@ -70,6 +73,7 @@ export default function Match(props: {
 								me='14px'>
 								{name}
 							</Text>
+							
 						</Flex>
 					</Flex>
 					<Flex

@@ -11,7 +11,6 @@ import 'react-calendar/dist/Calendar.css'
 import 'styles/MiniCalendar.css'
 import Head from 'next/head'
 
-
 import '@rainbow-me/rainbowkit/styles.css';
 
 import {
@@ -20,18 +19,15 @@ import {
 } from '@rainbow-me/rainbowkit';
 import {
   Chain,
-  chain,
   configureChains,
   createClient,
   WagmiConfig,
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { RPC, chainId, addressContract } from 'variables/project'
-import ABI from 'variables/abi.json'
+import { RPC, chainId } from 'variables/project'
 
 function MyApp ({ Component, pageProps }: AppProps) {
-
   const avalancheChain: Chain = {
     id: chainId,
     name: 'Binance',
@@ -88,7 +84,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
         <meta name='theme-color' content='#000000' />
       </Head>
       <React.StrictMode>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
       </React.StrictMode>
     </ChakraProvider>
     </RainbowKitProvider>

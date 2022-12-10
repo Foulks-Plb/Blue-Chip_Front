@@ -6,7 +6,7 @@ import Composition from "components/Composition";
 import Bet from "components/Bet";
 import { useRouter } from "next/router";
 import ABI from "variables/abi.json";
-import { addressContract, RPC, chainId, matchs } from "variables/project";
+import { addressContract, RPC, chainId } from "variables/project";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
@@ -105,14 +105,16 @@ export default function myMatch() {
                 {/* <Button variant='action'>Claim all</Button> */}
               </Flex>
               {allBet.map((e: any, i: number)=>
-              <HistoryItem
-                key={"historyMatch"+i}
-                team1={matchs[e].team1}
-                team2={matchs[e].team2}
-                image1={matchs[e].flag1}
-                image2={matchs[e].flag2}
-                matchNumber={e}
-              />
+              // a refaire
+              <div></div>
+              // <HistoryItem
+              //   key={"historyMatch"+i}
+              //   team1={matchs[e].team1}
+              //   team2={matchs[e].team2}
+              //   image1={matchs[e].flag1}
+              //   image2={matchs[e].flag2}
+              //   matchNumber={e}
+              // />
               )}
             </Card>
     </AdminLayout>

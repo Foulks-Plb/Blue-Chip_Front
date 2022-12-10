@@ -19,22 +19,24 @@ import HistoryItem from 'components/HistoryItem'
 
 import AdminLayout from 'layouts/admin'
 import { ethers } from 'ethers'
-import { addressContract, RPC, chainId, matchs, numberOfMatch } from 'variables/project'
+import { addressContract, RPC, chainId } from 'variables/project'
 import ABI from 'variables/abi.json'
+import { firestore, getAllMacth } from '../../../firebase/clientApp';
+
+import {collection,getDoc,doc,query,where,getDocs} from "@firebase/firestore";
 
 export default function Home () {
   const [allMatch, setAllMatch] = useState([]);
 
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const textColorBrand = useColorModeValue('brand.500', 'white')
-
+  
   const bscProvider = new ethers.providers.JsonRpcProvider(RPC, { name: 'binance', chainId: chainId })
   const contract = new ethers.Contract( addressContract , ABI , bscProvider )
 
   useEffect(() => {
     // searchEvent()
-    
-    // searchMatch();
+    searchMatch();
   },[]);
 
   async function searchEvent()
@@ -45,17 +47,8 @@ export default function Home () {
 
   async function searchMatch()
   {
-    const bscProvider = new ethers.providers.JsonRpcProvider(RPC, { name: 'binance', chainId: chainId })
-    const contract = new ethers.Contract( addressContract , ABI , bscProvider )
-
-    let i = 0;
-    while(i < numberOfMatch)
-    {
-      
-      setAllMatch([...allMatch, searchSpecificMatch(contract, i)]);
-      i++;
-    }   
-    console.log(allMatch)
+    const _AM = await getAllMacth();
+    setAllMatch(_AM)
   }
 
   async function searchSpecificMatch(contract: any, i: number)
@@ -97,11 +90,11 @@ export default function Home () {
                 </Text>
               </Flex>
               <SimpleGrid columns={{ base: 1, md: 3 }} gap='15px'>
-              {matchs.map((match, i) =>
+              {allMatch.map((match, i) =>
                 <Match key={"match"+i}
                   name={match.team1 + " - " + match.team2}
-                  image1={match.flag1}
-                  image2={match.flag2}
+                  image1={"/img/flags/"+match.team1+".jpg"}
+                  image2={"/img/flags/"+match.team2+".jpg"}
                   currentbid='0.91 ETH'
                   id={match.id}
               />
