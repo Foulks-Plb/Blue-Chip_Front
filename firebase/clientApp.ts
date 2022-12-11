@@ -18,8 +18,7 @@ export { firestore };
 export async function getAllMacth() {
     var _FM = localStorage.getItem('match_0');
     const _firstMatch = JSON.parse(_FM);
-    console.log(_firstMatch.date + 20 > Date.now())
-    if (_firstMatch.date + 180000 > Date.now()) {
+    if (_firstMatch?.date + 180000 > Date.now() && _firstMatch) {
         console.log("retrieve local data...")
         var retrievedMatch = _firstMatch;
         let i = 1;
