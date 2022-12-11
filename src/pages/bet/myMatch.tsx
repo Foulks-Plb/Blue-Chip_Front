@@ -18,7 +18,7 @@ import { useAccount } from "wagmi";
 import { RepeatIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 
-export default function myMatch() {
+export default function MyMatch() {
   const { address, isConnected } = useAccount();
 
   const [allBet, setAllBet] = useState([]);
@@ -35,27 +35,23 @@ export default function myMatch() {
   }, []);
 
 
-  async function searchAllBet()
-  {
-    if(!isConnected)
-    {
+  async function searchAllBet() {
+    if (!isConnected) {
       return
     }
     const filterFrom = contract.filters.Bet();
-     let events = await contract.queryFilter(filterFrom, 20224070, "latest")
-     var _allBet = [] as any;
-    events.map((e: any)=>{
-      if(e.args.from == address)
-      {
-        if(_allBet.indexOf(Number(e.args.id.toString())) == -1)
-        {
+    let events = await contract.queryFilter(filterFrom, 20224070, "latest")
+    var _allBet = [] as any;
+    events.map((e: any) => {
+      if (e.args.from == address) {
+        if (_allBet.indexOf(Number(e.args.id.toString())) == -1) {
           _allBet.push(Number(e.args.id.toString()));
-          setAllBet(aB => [...aB, 
-            Number(e.args.id.toString())
-        ]);
-        }         
-      }   
-    })  
+          setAllBet(aB => [...aB,
+          Number(e.args.id.toString())
+          ]);
+        }
+      }
+    })
   }
 
   return (
@@ -90,33 +86,33 @@ export default function myMatch() {
       </Box>
 
       <Card p='0px' mt="10px">
-              <Flex
-              
-                align={{ sm: 'flex-start', lg: 'center' }}
-                justify='space-between'
-                w='100%'
-                px='22px'
-                py='18px'
-              >
-                <Text fontSize='xl' fontWeight='600'>
-                  Your match
-                </Text>
-                {/* <RepeatIcon onClick={searchBetNumber}/> */}
-                {/* <Button variant='action'>Claim all</Button> */}
-              </Flex>
-              {allBet.map((e: any, i: number)=>
-              // a refaire
-              <div></div>
-              // <HistoryItem
-              //   key={"historyMatch"+i}
-              //   team1={matchs[e].team1}
-              //   team2={matchs[e].team2}
-              //   image1={matchs[e].flag1}
-              //   image2={matchs[e].flag2}
-              //   matchNumber={e}
-              // />
-              )}
-            </Card>
+        <Flex
+
+          align={{ sm: 'flex-start', lg: 'center' }}
+          justify='space-between'
+          w='100%'
+          px='22px'
+          py='18px'
+        >
+          <Text fontSize='xl' fontWeight='600'>
+            Your match
+          </Text>
+          {/* <RepeatIcon onClick={searchBetNumber}/> */}
+          {/* <Button variant='action'>Claim all</Button> */}
+        </Flex>
+        {allBet.map((e: any, i: number) =>
+          // a refaire
+          <div key={i}></div>
+          // <HistoryItem
+          //   key={"historyMatch"+i}
+          //   team1={matchs[e].team1}
+          //   team2={matchs[e].team2}
+          //   image1={matchs[e].flag1}
+          //   image2={matchs[e].flag2}
+          //   matchNumber={e}
+          // />
+        )}
+      </Card>
     </AdminLayout>
   );
 }

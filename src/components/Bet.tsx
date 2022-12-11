@@ -108,7 +108,7 @@ export default function Bet(props: {
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
-            <SliderThumb fontSize="sm" boxSize="32px" children={leverage} />
+            <SliderThumb fontSize="sm" boxSize="32px">{leverage}</SliderThumb>
           </Slider>
         </Flex>
         <Center>

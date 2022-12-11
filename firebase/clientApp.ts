@@ -38,7 +38,8 @@ export async function getAllMacth() {
         console.log("fetch database...");
         const q = query(collection(firestore, "matchs"));
         const oui = await getDocs(q);
-        let _allMatch = [];
+        let _allMatch : any[];
+        _allMatch = [];
         oui.docs.map((m: any, i: number) => {
             const _obj = {
                 "id": m._document.data.value.mapValue.fields.id.stringValue,
