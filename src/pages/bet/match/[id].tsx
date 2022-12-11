@@ -75,8 +75,8 @@ export default function ProfileOverview() {
     {
       setMatchLocal(
         {
-          flag1: "/img/flags/"+_match[0].team1+".jpg",
-          flag2: "/img/flags/"+_match[0].team2+".jpg",
+          flag1: "/static/flags/"+_match[0].team1+".jpg",
+          flag2: "/static/flags/"+_match[0].team2+".jpg",
           team1: _match[0].team1 ,
           team2: _match[0].team2 ,
         })
@@ -210,7 +210,7 @@ export default function ProfileOverview() {
                 idMatch={e.idMatch}
                 idBet={e.idBet}
                 teamBet={e.betTeam == 0 ? matchLocal.team1 : e.betTeam == 1 ? matchLocal.team2 :"Equality"}
-                flag={e.betTeam == 0 ? matchLocal.flag1 : e.betTeam == 1 ? matchLocal.flag2 :"/img/flags/white-flag.png"}
+                flag={e.betTeam == 0 ? matchLocal.flag1 : e.betTeam == 1 ? matchLocal.flag2 :"/static/flags/white-flag.png"}
                 leverage={e.leverage}
               />
               )}

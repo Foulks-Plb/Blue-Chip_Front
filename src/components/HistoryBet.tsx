@@ -61,9 +61,9 @@ export default function HistoryBet(props: {
 						</Text>
 					</Flex>
 					<Flex w='max-content' me={{ base: '4px', md: '32px', xl: '10px', '3xl': '32px' }} align='center'>
-						<Text w='max-content' fontWeight='700' fontSize='md' color={textColor}>
+						{/* <Text w='max-content' fontWeight='700' fontSize='md' color={textColor}>
 							leverage: x{leverage}
-						</Text>
+						</Text> */}
 					</Flex>
 					<Button variant='action' onClick={claimFunction}>Claim</Button>
 				</Flex>

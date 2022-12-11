@@ -93,8 +93,8 @@ export default function Home () {
               {allMatch.map((match, i) =>
                 <Match key={"match"+i}
                   name={match.team1 + " - " + match.team2}
-                  image1={"/img/flags/"+match.team1+".jpg"}
-                  image2={"/img/flags/"+match.team2+".jpg"}
+                  image1={"/static/flags/"+match.team1+".jpg"}
+                  image2={"/static/flags/"+match.team2+".jpg"}
                   currentbid='0.91 ETH'
                   id={match.id}
               />
