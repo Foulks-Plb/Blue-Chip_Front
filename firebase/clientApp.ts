@@ -18,7 +18,7 @@ export { firestore };
 export async function getAllMacth() {
     var _FM = localStorage.getItem('match_0');
     const _firstMatch = JSON.parse(_FM);
-    if (_firstMatch?.date + 180000 > Date.now() && _firstMatch) {
+    if (_firstMatch?.date + 280000 > Date.now() && _firstMatch) {
         console.log("retrieve local data...")
         var retrievedMatch = _firstMatch;
         let i = 1;
@@ -35,6 +35,14 @@ export async function getAllMacth() {
     }
     else {
         console.log("fetch database...");
+        var _PM = localStorage.getItem('match_0');
+        let i = 0;
+        while(_PM)
+        {
+            localStorage.removeItem('match_'+i);
+            i++;
+            _PM = localStorage.getItem('match_'+i);
+        }
         const q = query(collection(firestore, "matchs"));
         const oui = await getDocs(q);
         let _allMatch : any[];

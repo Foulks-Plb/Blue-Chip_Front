@@ -23,41 +23,35 @@ import { addressContract, RPC, chainId } from 'variables/project'
 import ABI from 'variables/abi.json'
 import { firestore, getAllMacth } from '../../../firebase/clientApp';
 
-import {collection,getDoc,doc,query,where,getDocs} from "@firebase/firestore";
+import { collection, getDoc, doc, query, where, getDocs } from "@firebase/firestore";
 
-export default function Home () {
-  const [allMatch, setAllMatch] = useState([]);
+export default function Home() {
+  const [allMatchActive, setAllMatchActive] = useState([]);
+  const [allMatchFinished, setAllMatchFinished] = useState([]);
 
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const textColorBrand = useColorModeValue('brand.500', 'white')
-  
+
   const bscProvider = new ethers.providers.JsonRpcProvider(RPC, { name: 'binance', chainId: chainId })
-  const contract = new ethers.Contract( addressContract , ABI , bscProvider )
+  const contract = new ethers.Contract(addressContract, ABI, bscProvider)
 
   useEffect(() => {
     // searchEvent()
     searchMatch();
-  },[]);
+  }, []);
 
-  async function searchEvent()
-  {
+  async function searchEvent() {
     const filterFrom = contract.filters.Bet();
-     let events = await contract.queryFilter(filterFrom, 20224070, "latest")
+    let events = await contract.queryFilter(filterFrom, 20224070, "latest")
   }
 
-  async function searchMatch()
-  {
-    const _AM = await getAllMacth();
-    setAllMatch(_AM)
+  async function searchMatch() {
+    const _AllMatch = await getAllMacth();
+
+    setAllMatchActive(_AllMatch.filter((e: any)=> !e.isEnd))
+    setAllMatchFinished(_AllMatch.filter((e: any)=> e.isEnd))
   }
 
-  async function searchSpecificMatch(contract: any, i: number)
-  {
-    const match = await contract.matchId(i);
-    
-    return match;
-  }
-  
   return (
     <AdminLayout>
       <Box pt={{ base: '180px', md: '80px', xl: '80px' }}>
@@ -90,18 +84,48 @@ export default function Home () {
                 </Text>
               </Flex>
               <SimpleGrid columns={{ base: 1, md: 3 }} gap='15px'>
-              {allMatch.map((match, i) =>
-                <Match key={"match"+i}
-                  name={match.team1 + " - " + match.team2}
-                  image1={"/static/flags/"+match.team1+".jpg"}
-                  image2={"/static/flags/"+match.team2+".jpg"}
-                  currentbid='0.91 ETH'
-                  id={match.id}
-              />
-            )}
+                {allMatchActive.map((match, i) =>
+                  <Match key={"match" + i}
+                    name={match.team1 + " - " + match.team2}
+                    image1={"/static/flags/" + match.team1 + ".jpg"}
+                    image2={"/static/flags/" + match.team2 + ".jpg"}
+                    currentbid='0.91 ETH'
+                    id={match.id}
+                    isEnd={match.isEnd}
+                  />
+                )}
+              </SimpleGrid>
+              <Flex
+                mt='45px'
+                mb='20px'
+                justifyContent='space-between'
+                direction={{ base: 'column', md: 'row' }}
+                align={{ base: 'start', md: 'center' }}
+              >
+                <Text
+                  color={textColor}
+                  fontSize='2xl'
+                  ms='24px'
+                  fontWeight='700'
+                >
+                  Finished match
+                </Text>
+              </Flex>
+              <SimpleGrid columns={{ base: 1, md: 3 }} gap='15px'>
+                {allMatchFinished.map((match, i) =>
+                  <Match key={"match" + i}
+                    name={match.team1 + " - " + match.team2}
+                    image1={"/static/flags/" + match.team1 + ".jpg"}
+                    image2={"/static/flags/" + match.team2 + ".jpg"}
+                    currentbid='0.91 ETH'
+                    id={match.id}
+                    isEnd={match.isEnd}
+                  />
+                )}
               </SimpleGrid>
             </Flex>
           </Flex>
+
           <Flex
             flexDirection='column'
             gridArea={{ xl: '1 / 3 / 2 / 4', '2xl': '1 / 2 / 2 / 3' }}
@@ -114,7 +138,7 @@ export default function Home () {
             </Card> */}
             <Card p='0px' mt="10px">
               <Flex
-              
+
                 align={{ sm: 'flex-start', lg: 'center' }}
                 justify='space-between'
                 w='100%'

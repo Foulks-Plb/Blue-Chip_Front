@@ -22,10 +22,10 @@ export default function Composition(props: { inA: number; inB: number; inEqualit
 	const [minutes, setMinutes] = useState(0);
 	const [seconds, setSeconds] = useState(0);
 
-	let time = date * 1000 - Date.now();
+	let time = date * 1000 - (Date.now() - 46800000);
 
 	const getTime = () => {
-		time = date * 1000 - Date.now();
+		time = date * 1000 - (Date.now() - 46800000);
 		setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
 		setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
 		setMinutes(Math.floor((time / 1000 / 60) % 60));
@@ -33,9 +33,9 @@ export default function Composition(props: { inA: number; inB: number; inEqualit
 	};
 
 	useEffect(() => {
-		// const interval = setInterval(() => getTime(), 1000);
+		const interval = setInterval(() => getTime(), 1000);
 
-		// return () => clearInterval(interval);
+		return () => clearInterval(interval);
 	}, []);
 
 	return (
@@ -54,7 +54,7 @@ export default function Composition(props: { inA: number; inB: number; inEqualit
 					<Text color={textColorPrimary} fontWeight='bold' fontSize='2xl' mt='10px'>
 						{days + " days"}
 					</Text>
-					<Text color={textColorPrimary} fontWeight='bold' fontSize='15px' mt='10px'>
+					<Text color={textColorPrimary} fontWeight='bold' fontSize='13px' mt='10px'>
 						{hours + " hours " + minutes + " minutes " + seconds + " seconde "}
 					</Text></div> : <Text color={textColorPrimary} fontWeight='bold' fontSize='15px' mt='10px'>
 					The game is over

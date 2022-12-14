@@ -27,8 +27,9 @@ export default function Match(props: {
 	name: string;
 	id: number;
 	currentbid: string | number;
+	isEnd: boolean;
 }) {
-	const { image1, image2, name, id, currentbid } = props;
+	const { image1, image2, name, id, currentbid, isEnd } = props;
 	const [ like, setLike ] = useState(false);
 	const textColor = useColorModeValue('navy.700', 'white');
 	const textColorBid = useColorModeValue('brand.500', 'white');
@@ -113,7 +114,7 @@ export default function Match(props: {
 								borderRadius='70px'
 								px='24px'
 								py='5px'>
-								Bet
+								{isEnd ? "See": "Bet"}
 							</Button>
 						</Link>
 					</Flex>

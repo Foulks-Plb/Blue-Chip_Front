@@ -31,7 +31,7 @@ export default function MyMatch() {
   const contract = new ethers.Contract(addressContract, ABI, bscProvider);
 
   useEffect(() => {
-    searchAllBet();
+    // searchAllBet();
   }, []);
 
 
@@ -39,8 +39,11 @@ export default function MyMatch() {
     if (!isConnected) {
       return
     }
-    const filterFrom = contract.filters.Bet();
-    let events = await contract.queryFilter(filterFrom, 20224070, "latest")
+    const filterFrom = contract.filters.Bet(address, null, null);
+    console.log(filterFrom)
+    const events = await contract.queryFilter("*", 23791080, "latest")
+    console.log(events)
+    
     var _allBet = [] as any;
     events.map((e: any) => {
       if (e.args.from == address) {
@@ -52,6 +55,7 @@ export default function MyMatch() {
         }
       }
     })
+    console.log(allBet)
   }
 
   return (
@@ -97,12 +101,13 @@ export default function MyMatch() {
           <Text fontSize='xl' fontWeight='600'>
             Your match
           </Text>
+          {isConnected ? <Text>An error has occurred</Text> : <Text>Connect your wallet</Text>}
           {/* <RepeatIcon onClick={searchBetNumber}/> */}
           {/* <Button variant='action'>Claim all</Button> */}
         </Flex>
         {allBet.map((e: any, i: number) =>
           // a refaire
-          <div key={i}></div>
+          <div></div>
           // <HistoryItem
           //   key={"historyMatch"+i}
           //   team1={matchs[e].team1}

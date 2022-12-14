@@ -10,7 +10,8 @@ import {
   DrawerOverlay,
   useDisclosure,
   DrawerContent,
-  DrawerCloseButton
+  DrawerCloseButton,
+  Center
 } from '@chakra-ui/react'
 import Content from 'components/sidebar/components/Content'
 import {
@@ -65,7 +66,10 @@ function Sidebar (props: SidebarProps) {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
-          {/* <Image width={1920} height={697} src='/img/logo.png'></Image> */}
+          <Center w='100%'>
+            <Image width={100} height={100} src='/static/LOGO.png'></Image>
+          </Center>
+          
           <Content routes={routes} />
         </Scrollbars>
       </Box>
