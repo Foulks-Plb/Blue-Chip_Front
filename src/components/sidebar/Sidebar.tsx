@@ -26,6 +26,7 @@ import { IoMenuOutline } from 'react-icons/io5'
 import { IRoute } from 'types/navigation'
 import { isWindowAvailable } from 'utils/navigation'
 import Image from 'next/image'
+import { useColorMode } from '@chakra-ui/system'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
@@ -38,6 +39,7 @@ interface SidebarProps extends SidebarResponsiveProps {
 function Sidebar (props: SidebarProps) {
   const { routes } = props
 
+  const { colorMode } = useColorMode()
   let variantChange = '0.2s linear'
   let shadow = useColorModeValue(
     '14px 17px 40px 4px rgba(112, 144, 176, 0.08)',
@@ -46,7 +48,7 @@ function Sidebar (props: SidebarProps) {
   // Chakra Color Mode
   let sidebarBg = useColorModeValue('white', 'navy.800')
   let sidebarMargins = '0px'
-
+  
   // SIDEBAR
   return (
     <Box display={{ sm: 'none', xl: 'block' }} position='fixed' minH='100%'>
@@ -66,8 +68,9 @@ function Sidebar (props: SidebarProps) {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
+          
           <Center w='100%'>
-            <Image width={100} height={100} src='/static/LOGO.png'></Image>
+            {colorMode === 'dark' ? <Image width={100} height={100} src='/static/logoWhite.png'></Image> : <Image width={100} height={100} src='/static/logoBlack.png'></Image>}
           </Center>
           
           <Content routes={routes} />

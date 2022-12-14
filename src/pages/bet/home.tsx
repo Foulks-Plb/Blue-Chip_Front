@@ -21,9 +21,7 @@ import AdminLayout from 'layouts/admin'
 import { ethers } from 'ethers'
 import { addressContract, RPC, chainId } from 'variables/project'
 import ABI from 'variables/abi.json'
-import { firestore, getAllMacth } from '../../../firebase/clientApp';
-
-import { collection, getDoc, doc, query, where, getDocs } from "@firebase/firestore";
+import { getAllMacth } from '../../../firebase/clientApp';
 
 export default function Home() {
   const [allMatchActive, setAllMatchActive] = useState([]);
