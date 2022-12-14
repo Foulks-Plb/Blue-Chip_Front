@@ -107,7 +107,7 @@ export default function MyMatch() {
         </Flex>
         {allBet.map((e: any, i: number) =>
           // a refaire
-          <div></div>
+          <div key={"historyMatch"+i}></div>
           // <HistoryItem
           //   key={"historyMatch"+i}
           //   team1={matchs[e].team1}
